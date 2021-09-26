@@ -27,8 +27,8 @@ void hello_intr() {
   // *((uint64_t*) CLINT_MTIMECMP) += 5000;
   // printf("mtimecmp: %d\n", *((uint64_t*) CLINT_MTIMECMP));
   printf("mtime: %d\n", *((uint64_t*) CLINT_MTIME));
-  for(int i=0; i<5; i++) {
+  for(int i=0; i<50; i++) {
     for(int j=0; j<1000; j++);
-    yield();
+     yield();
   }
 }
