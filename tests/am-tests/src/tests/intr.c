@@ -6,7 +6,7 @@
 Context *simple_trap(Event ev, Context *ctx) {
   switch(ev.event) {
     case EVENT_IRQ_TIMER:
-      *((uint64_t*) CLINT_MTIMECMP) += 1000;
+      *((uint64_t*) CLINT_MTIMECMP) += 10;
       putch('t'); break;
     case EVENT_IRQ_IODEV:
       putch('d'); break;
@@ -24,11 +24,12 @@ void hello_intr() {
   io_read(AM_INPUT_CONFIG); // external interrupt
   iset(1);  // interrupt enable
   printf("mtimecmp: %d\n", *((uint64_t*) CLINT_MTIMECMP));
-  // *((uint64_t*) CLINT_MTIMECMP) += 5000;
-  // printf("mtimecmp: %d\n", *((uint64_t*) CLINT_MTIMECMP));
-  printf("mtime: %d\n", *((uint64_t*) CLINT_MTIME));
-  for(int i=0; i<50; i++) {
-    for(int j=0; j<1000; j++);
-     yield();
+  *((uint64_t*) CLINT_MTIMECMP) = 20;
+  printf("mtimecmp: %d\n", *((uint64_t*) CLINT_MTIMECMP));
+  for(int i=0; i<5000; i++) {
+    for(int j=0; j<1000; j++)
+      ;
+    // printf("mtime: %d\n", *((uint64_t*) CLINT_MTIME));
+    yield();
   }
 }
